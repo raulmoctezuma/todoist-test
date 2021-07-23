@@ -1,0 +1,15 @@
+{
+  "name": "todoist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "testcafe chrome ./tests",
+    "test-headless": "testcafe chrome:headless ./tests"
+  },
+  "author": "Raul Moctezuma Cordero",
+  "license": "ISC",
+  "dependencies": {
+    "testcafe": "^1.15.0"
+  }
+}
