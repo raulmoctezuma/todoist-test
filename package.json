@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "testcafe chrome ./tests",
+    "test": "testcafe chrome ./pom/tests",
+    "test-smoke": "testcafe chrome ./pom/tests --currency 3 --test-meta type=smoke",
     "test-headless": "testcafe chrome:headless ./tests"
   },
   "author": "Raul Moctezuma Cordero",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "testcafe": "^1.15.0"
   }
 }
