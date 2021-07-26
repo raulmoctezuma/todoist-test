@@ -39,7 +39,8 @@ test("As a user, I want to create a task successfully with tomorrow's date. So t
 */
 test("As a user, I want to create ten tasks successfully with today's date. So that I can follow all the assignments for the current date.", async t => {
     await t.click(todayPage.addNewTaskButton)
-    todayPage.createManyTasks(10)
+    const taskNumber = 10
+    todayPage.createManyTasks(taskNumber)
     await t.expect(todayPage.taskItem.count).eql(11)
 })
 
