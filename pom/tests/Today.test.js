@@ -2,7 +2,7 @@ import todayPage from '../pages/todayPage'
 import { STANDARD_USER } from '../data/Roles'
 import { URLS, TASKS, PROJECTS } from '../data/Constants'
 
-fixture('Login Feature test')
+fixture('Today Feature test')
     .page `${URLS.LOGIN_URL}`
     .beforeEach( async t => {
         await t.useRole(STANDARD_USER)
@@ -31,6 +31,7 @@ test("As a user, I want to create a task successfully with tomorrow's date. So t
         .expect(todayPage.taskCreatedTitle.withText(TASKS.NEW_TASK.TOMORROW.TITLE).exists).ok()
         .expect(todayPage.taskCreatedDescription.withText(TASKS.NEW_TASK.TOMORROW.DESCRIPTION).exists).ok()
         .expect(todayPage.taskItem.withText(TASKS.NEW_TASK.TOMORROW.TITLE).find('.date_tom').innerText).contains('Tomorrow')
+        .wait(3000)
 })
 
 /*
@@ -53,8 +54,9 @@ test('As a user, I want to create a new project. So that I can organize my tasks
 /*
 7. Delete every task created (if there’s any) after your tests.
 */
-test("As a user, I want to delete all tasks successfully. So that I can clear all my finished tasks.", async t => {
+test.only("As a user, I want to delete all tasks successfully. So that I can clear all my finished tasks.", async t => {
     const taskNumber = await todayPage.taskItem.count
     todayPage.deleteAllTasks(taskNumber)
-    await t.expect(today.taskItem.exists).ok()
+    await t.expect(todayPage.taskItem.exists).ok()
+    await t.wait(5000)
 })
