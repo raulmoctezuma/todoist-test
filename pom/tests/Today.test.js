@@ -54,7 +54,7 @@ test('As a user, I want to create a new project. So that I can organize my tasks
 /*
 7. Delete every task created (if there’s any) after your tests.
 */
-test.only("As a user, I want to delete all tasks successfully. So that I can clear all my finished tasks.", async t => {
+test("As a user, I want to delete all tasks successfully. So that I can clear all my finished tasks.", async t => {
     const taskNumber = await todayPage.taskItem.count
     todayPage.deleteAllTasks(taskNumber)
     await t.expect(todayPage.taskItem.exists).ok()
