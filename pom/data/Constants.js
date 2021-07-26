@@ -26,3 +26,24 @@ export const MESSAGES = {
         }
     }
 }
+
+export const TASKS = {
+    NEW_TASK:{
+        TODAY:{
+            TITLE: "Today's task",
+            DESCRIPTION: 'This is a description for a new task'
+        },
+        TOMORROW:{
+            TITLE: "Tomorrow's task",
+            DESCRIPTION: "This is a description for the tomorrow's task"
+        }
+        
+    }
+}
+
+export const PROJECTS = {
+    NEW_PROJECT:{
+        NAME: 'New Project',
+        COLOR: 'Mint Green'
+    }
+}
