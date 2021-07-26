@@ -9,8 +9,8 @@
     "test-headless": "testcafe chrome:headless ./pom/tests",
     "test-login": "testcafe chrome,safari ./pom/tests/Login.test.js",
     "test-tasks": "testcafe chrome ./pom/tests/Today.test.js",
-    "test-smoke": "testcafe chrome:headless ./pom/tests --currency 3 --test-meta type=smoke --reporter allure",
-    "test-reporter": "testcafe chrome:headless ./pom/tests --reporter allure"
+    "test-smoke": "testcafe chrome:headless ./pom/tests --currency 3 --test-meta type=smoke -r xunit:res.xml",
+    "test-reporter": "testcafe chrome:headless ./pom/tests -r xunit:res.xml"
   },
   "author": "Raul Moctezuma Cordero",
   "license": "ISC",
