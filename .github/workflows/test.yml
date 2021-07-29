@@ -12,8 +12,18 @@ jobs:
           node-version: "14.x"
       - run: npm install
       - run: npm run eslint
-  TestCafe:
+  Newman:
     needs: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - run: npm install
+      - run: npm run api-test
+  TestCafe:
+    needs: Newman
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
