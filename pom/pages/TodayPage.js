@@ -1,4 +1,5 @@
 import { Selector, t } from 'testcafe'
+import { TASKS } from '../data/Constants'
 
 class TodayPage {
 
@@ -48,9 +49,8 @@ class TodayPage {
     }
 
     async createManyTasks(taskNumber){
-        let faker = require('faker')
         for (let index = 0; index < taskNumber; index++) {
-            this.createTask(faker.commerce.product(), faker.commerce.productDescription())
+            this.createTask(TASKS.NEW_TASK.TODAY.TITLE + index, TASKS.NEW_TASK.TODAY.DESCRIPTION + index)
         }
     }
 
