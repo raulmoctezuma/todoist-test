@@ -39,7 +39,7 @@ jobs:
         with:
           report_paths: "res.xml"
   SlackNotifications:
-    name: Slack Notification
+    name: Slack Notification Status
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
