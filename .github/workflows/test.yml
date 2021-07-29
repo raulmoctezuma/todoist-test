@@ -24,22 +24,23 @@ jobs:
           node-version: "14.x"
       - run: npm install
       - run: npm run api-test
-  TestCafe:
-    name: Testcafe smoke tests
-    needs: Newman
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "14.x"
-      - run: npm install
-      - run: npm run test-smoke
-      - uses: mikepenz/action-junit-report@v2
-        with:
-          report_paths: "res.xml"
+  # TestCafe:
+  #   name: Testcafe smoke tests
+  #   needs: Newman
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "14.x"
+  #     - run: npm install
+  #     - run: npm run test-smoke
+  #     - uses: mikepenz/action-junit-report@v2
+  #       with:
+  #         report_paths: "res.xml"
   SlackNotifications:
     name: Slack Notification Status
+    needs: Newman
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -47,5 +48,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: 'Test Status: Succesful :blob-dance:'
+          SLACK_TITLE: Message
 
 
