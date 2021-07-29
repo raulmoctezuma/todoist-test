@@ -1306,8 +1306,8 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"pm.test(\"Validate that response time is less than 500ms\", function () {",
-					"    pm.expect(pm.response.responseTime).to.be.below(500);",
+					"pm.test(\"Validate that response time is less than 700ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(700);",
 					"});"
 				]
 			}

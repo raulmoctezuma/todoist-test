@@ -14,7 +14,7 @@ jobs:
       - run: npm install
       - run: npm run eslint
   Newman:
-    name: API testing
+    name: API testing with Postman/Newman
     needs: Lint
     runs-on: ubuntu-latest
     steps:
