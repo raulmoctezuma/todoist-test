@@ -1,29 +1,26 @@
 name: Test todoist
 
-on:
-   [push]
+on: [push]
 
 jobs:
-    Lint:
-        runs-on: ubuntu-latest
-           steps:
-               - uses: actions/checkout@v2
-               - uses: actions/setup-node@v1
-                 with:
-                     node-version: '14.x'
-               - run: npm install
-               - run: npm run eslint
-    TestCafe:
-        runs-on: ubuntu-latest
-           steps:
-               - uses: actions/checkout@v2
-               - uses: actions/setup-node@v1
-                 with:
-                     node-version: '14.x'
-               - run: npm install
-               - run: npm run test-smoke
-               - uses: mikepenz/action-junit-report@v2
-                 with:
-                 report_paths: 'res.xml'
-
-    
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - run: npm install
+      - run: npm run eslint
+  TestCafe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - run: npm install
+      - run: npm run test-smoke
+      - uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: "res.xml"
