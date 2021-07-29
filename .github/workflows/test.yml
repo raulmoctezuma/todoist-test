@@ -50,7 +50,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: 'Test Status: Succesful :blob-dance:'
           SLACK_TITLE: Message
-          SLACK_ICON: https://github.com/raulmoctezuma/todoist-test/blob/main/icon/star-mario-bros-notification.png
+          SLACK_ICON: https://i.pinimg.com/originals/fd/e6/e0/fde6e0fc44801d9c14ef90095d52b9de.png
           SLACK_USERNAME: Github
 
 
