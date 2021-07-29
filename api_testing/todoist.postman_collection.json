@@ -1,0 +1,1308 @@
+{
+	"info": {
+		"_postman_id": "65d2ca63-d002-4e66-98f2-951b4f2c0430",
+		"name": "todoist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Get All Projects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json()",
+									"",
+									"pm.test(\"Validate that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate that number of records returned is correct\", function(){",
+									"    const numberRecords = 4",
+									"    pm.expect(jsonData.length).to.equal(numberRecords)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Projects - No Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.noTokenMessage)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json()",
+									"",
+									"pm.test(\"Validate status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate that Content-Type header exists\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Validate that Content-Type is application/json\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Validate color from response\", function () {",
+									"    pm.expect(jsonData.color).is.eql(parseInt(environment.projectColor))",
+									"});",
+									"",
+									"pm.test(\"Validate Schema\", function(){",
+									"    const expectedSchema = {",
+									"        \"properties\":{",
+									"            \"id\":{",
+									"                \"type\": \"number\"",
+									"            },",
+									"            \"color\":{",
+									"                \"type\": \"number\"",
+									"            },",
+									"            \"name\":{",
+									"                \"type\": \"string\"",
+									"            }",
+									"        }",
+									"    }",
+									"    pm.response.to.have.jsonSchema(expectedSchema)",
+									"})",
+									"",
+									"pm.environment.set(\"projectID\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"projectName\", \"API Project\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{projectName}}\",\n    \"color\": {{projectColor}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Project - No Required Parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.noNameProjectMessage)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"color\": {{projectColor}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get A Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json()",
+									"",
+									"pm.test(\"Validate status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate Schema\", function(){",
+									"    const expectedSchema = {",
+									"        \"properties\":{",
+									"            \"id\":{",
+									"                \"type\": \"number\"",
+									"            },",
+									"            \"color\":{",
+									"                \"type\": \"number\"",
+									"            },",
+									"            \"name\":{",
+									"                \"type\": \"string\"",
+									"            }",
+									"        }",
+									"    }",
+									"    pm.response.to.have.jsonSchema(expectedSchema)",
+									"})",
+									"",
+									"pm.test(\"Validate project name from response\", function () {",
+									"    pm.expect(jsonData.name).is.eql(environment.projectName)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects/{{projectID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects",
+								"{{projectID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get A Project - No Existing Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.noItemFound)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects/1",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update A Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{projectNameUpdated}}\",\n    \"color\": {{projectColorUpdated}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects/{{projectID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects",
+								"{{projectID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update A Project - Wrong Data Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.contain(environment.wrongDataTypeMessage)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": 1234567890,\n    \"color\": {{projectColorUpdated}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects/{{projectID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects",
+								"{{projectID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete A Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/projects/{{projectID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"projects",
+								"{{projectID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete A Project - Wrong Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.pageNotFoundMessage)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/project/{{projectID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"project",
+								"{{projectID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Validate that response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Get Active Tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json()",
+									"",
+									"pm.test(\"Validate that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate that number of records returned is correct\", function(){",
+									"    const numberRecords = 19",
+									"    pm.expect(jsonData.length).to.equal(numberRecords)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Tasks - No Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.noTokenMessage)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add A New Task",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"taskName\", \"API Task\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json()",
+									"",
+									"pm.test(\"Validate that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate that Content-Type header exists\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Validate that Content-Type is application/json\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Validate task description from response\", function () {",
+									"    pm.expect(jsonData.description).is.eql(environment.taskDescription)",
+									"});",
+									"",
+									"pm.test(\"Validate Schema\", function(){",
+									"    const expectedSchema = {",
+									"        \"properties\":{",
+									"            \"id\":{",
+									"                \"type\": \"number\"",
+									"            },",
+									"            \"content\":{",
+									"                \"type\": \"string\"",
+									"            },",
+									"            \"description\":{",
+									"                \"type\": \"string\"",
+									"            }",
+									"        }",
+									"    }",
+									"    pm.response.to.have.jsonSchema(expectedSchema)",
+									"})",
+									"",
+									"pm.environment.set(\"taskID\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"{{taskName}}\",\n    \"description\": \"{{taskDescription}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add A New Task - No Content",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.emptyContentTaskMessage)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"{{taskDescription}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get An Active Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json()",
+									"",
+									"pm.test(\"Validate that status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate Schema\", function(){",
+									"    const expectedSchema = {",
+									"        \"properties\":{",
+									"            \"id\":{",
+									"                \"type\": \"number\"",
+									"            },",
+									"            \"content\":{",
+									"                \"type\": \"string\"",
+									"            },",
+									"            \"description\":{",
+									"                \"type\": \"string\"",
+									"            }",
+									"        }",
+									"    }",
+									"    pm.response.to.have.jsonSchema(expectedSchema)",
+									"})",
+									"",
+									"pm.test(\"Validate task name from response\", function () {",
+									"    pm.expect(jsonData.content).is.eql(environment.taskName)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/{{taskID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get An Active Task - No Existing Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.noItemFound)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/1",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update A Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"{{taskNameUpdated}}\",\n    \"description\": \"{{taskDescriptionUpdated}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/{{taskID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update A Task - Wrong Data Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.contain(environment.wrongDataTypeMessage)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": 123456789,\n    \"description\": \"{{taskDescriptionUpdated}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/{{taskID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close A Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/{{taskID}}/close",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskID}}",
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close A Task - Wrong Verb",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 405\", function () {",
+									"    pm.response.to.have.status(405);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/{{taskID}}/close",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskID}}",
+								"close"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reopen A Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/{{taskID}}/reopen",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskID}}",
+								"reopen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reopen A Task - No ID Defined",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.pageNotFoundMessage)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/reopen",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"reopen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete A Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate that status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/{{taskID}}",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete A Task - No Existing Task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validate response body\", function(){",
+									"    pm.expect(responseBody.trim()).to.be.eql(environment.deleteTaskWrongIdMessage)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{todoistEndpoint}}/tasks/1",
+							"host": [
+								"{{todoistEndpoint}}"
+							],
+							"path": [
+								"tasks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Validate that response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});"
+						]
+					}
+				}
+			]
+		}
+	]
+}

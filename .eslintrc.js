@@ -10,6 +10,7 @@ module.exports = {
     },
     "rules": {
         "no-trailing-spaces": ["warn", { "skipBlankLines": true }],
-        "no-undef": "warn"
+        "no-undef": "warn",
+        "no-unused-vars": "warn"
     }
 };
