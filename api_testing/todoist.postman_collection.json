@@ -128,6 +128,7 @@
 									"})",
 									"",
 									"pm.environment.set(\"projectID\", jsonData.id);",
+									"pm.environment.unset(\"projectName\")",
 									""
 								],
 								"type": "text/javascript"
@@ -270,8 +271,8 @@
 									"    pm.response.to.have.jsonSchema(expectedSchema)",
 									"})",
 									"",
-									"pm.test(\"Validate project name from response\", function () {",
-									"    pm.expect(jsonData.name).is.eql(environment.projectName)",
+									"pm.test(\"Validate project id from response\", function () {",
+									"    pm.expect(jsonData.id).is.eql(environment.projectID)",
 									"});"
 								],
 								"type": "text/javascript"
@@ -696,7 +697,8 @@
 									"    pm.response.to.have.jsonSchema(expectedSchema)",
 									"})",
 									"",
-									"pm.environment.set(\"taskID\", jsonData.id);"
+									"pm.environment.set(\"taskID\", jsonData.id);",
+									"pm.environment.unset(\"taskName\")"
 								],
 								"type": "text/javascript"
 							}
@@ -828,8 +830,8 @@
 									"    pm.response.to.have.jsonSchema(expectedSchema)",
 									"})",
 									"",
-									"pm.test(\"Validate task name from response\", function () {",
-									"    pm.expect(jsonData.content).is.eql(environment.taskName)",
+									"pm.test(\"Validate task id from response\", function () {",
+									"    pm.expect(jsonData.id).is.eql(environment.taskID)",
 									"});"
 								],
 								"type": "text/javascript"

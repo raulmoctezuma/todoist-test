@@ -7,8 +7,9 @@
     "eslint": "./node_modules/.bin/eslint ./pom/pages",
     "test": "testcafe chrome ./pom/tests",
     "test-headless": "testcafe chrome:headless ./pom/tests",
-    "test-login": "testcafe chrome,safari ./pom/tests/Login.test.js",
-    "test-tasks": "testcafe chrome ./pom/tests/Today.test.js",
+    "test-login-feature": "testcafe chrome,safari ./pom/tests/Login.test.js",
+    "test-task-feature": "testcafe chrome,safari ./pom/tests/Task.test.js",
+    "test-project-feature": "testcafe chrome,safari ./pom/tests/Project.test.js",
     "test-smoke": "testcafe chrome:headless ./pom/tests --test-meta type=smoke -r xunit:res.xml",
     "test-reporter": "testcafe chrome:headless ./pom/tests -r xunit:res.xml",
     "api-test": "newman run ./api_testing/todoist.postman_collection.json -e ./api_testing/todoist.postman_environment.json"

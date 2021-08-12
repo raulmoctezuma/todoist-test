@@ -31,10 +31,12 @@ export const TASKS = {
     NEW_TASK:{
         TODAY:{
             TITLE: "Today's task",
+            DUE_DATE: 'Today',
             DESCRIPTION: 'This is a description for a new task'
         },
         TOMORROW:{
             TITLE: "Tomorrow's task",
+            DUE_DATE: 'Tomorrow',
             DESCRIPTION: "This is a description for the tomorrow's task"
         }
         
@@ -44,6 +46,16 @@ export const TASKS = {
 export const PROJECTS = {
     NEW_PROJECT:{
         NAME: 'New Project',
-        COLOR: 'Mint Green'
+        COLOR: 'Mint Green',
+        IS_FAVORITE: true
     }
 }
+
+export const NUMBER_TASKS = {
+    SINGLE: 1,
+    MIN: 2,
+    MAX: 10
+}
+
+export const API_WAIT = 5000
+export const TEST_SPEED_ADD_TASK = 0.8
