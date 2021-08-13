@@ -19,7 +19,7 @@ npm install
 ```
 
 ## :pencil: Create an environment file
-It is necessary to create an environment file `.env`, because it will be helpful to login to the application with your own credentials during test running and avoid errors during performance.
+It is necessary to create an environment file `.env` within root folder, because it will be helpful to login to the application with your own credentials during test running and avoid errors during performance.
 The environment file has to contain the following variables and values according to your credentials:
 ```
 BASE_URL=https://todoist.com/users/showlogin
