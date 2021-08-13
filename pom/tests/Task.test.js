@@ -42,5 +42,5 @@ test.meta('type', 'smoke')("As a user, I want to create ten tasks successfully w
     await t.click(commonPage.todayButton)
     await commonPage.createMultipleTasks(NUMBER_TASKS.MAX)
     await t.click(commonPage.upcomingButton)
-    await t.expect(await upcomingPage.validateMultipleTasksAdded(NUMBER_TASKS.MAX)).ok()
+    await t.expect(await upcomingPage.validateMultipleTasksAdded(TASKS.NEW_TASK.TODAY.TITLE, TASKS.NEW_TASK.TODAY.DUE_DATE, NUMBER_TASKS.MAX)).ok()
 })

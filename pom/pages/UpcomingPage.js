@@ -1,5 +1,4 @@
-import { Selector } from 'testcafe'
-import { TASKS } from '../data/Constants'
+import { Selector, t } from 'testcafe'
 
 class UpcomingPage{
     constructor(){
@@ -13,21 +12,19 @@ class UpcomingPage{
 
     async validateTaskAdded(taskTitle, dueDate, taskNumber = 0){
         let taskDate = dueDate
-        const taskExists = await this.section
+        await t.expect(this.section
             .withText(taskDate)
             .find(this.sectionTaskTitleStyle)
             .withText(taskTitle + taskNumber)
-            .exists
-
-        return taskExists 
-            ? true 
-            : false
+            .exists).ok()
+        
+        return true
     }
 
-    async validateMultipleTasksAdded(numberOfTasks){
+    async validateMultipleTasksAdded(taskTitle, dueDate, numberOfTasks){
         for (let index = 0; index < numberOfTasks; index++) {
-            const taskExists = await this.validateTaskAdded(TASKS.NEW_TASK.TODAY.TITLE, TASKS.NEW_TASK.TODAY.DUE_DATE, index)
-            if (!taskExists)
+            const taskExists = await this.validateTaskAdded(taskTitle, dueDate, index)
+            if (taskExists == false)
                 return false
         }
         return true
