@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="300" height="300" src="https://www.drupal.org/files/wizeline-isotype%402x%20%282%29.png">
+</p>
+
 # :bulb: todoist test suite
 This repository includes test and configuration files in order to test **todoist** web application (frontend and API). In the next line, it will be described the process of installation and configuration.
 
